@@ -142,7 +142,7 @@ class CoverageScorer(Scorer):
         self.score['keyword_coverage'] += coverage_score
 
 class PPLScorer(Scorer):
-    def __init__(self, model_id = 'gpt2', device = 'cpu', stride=512, max_length=512):
+    def __init__(self, model_id = 'gpt2', device = 'cpu', stride=512, max_length=512, use_sppl=False):
         if '_ppl_model' not in globals():
             global _ppl_model
             _ppl_model = AutoModelForCausalLM.from_pretrained(model_id).to(device)
@@ -151,14 +151,18 @@ class PPLScorer(Scorer):
         self.stride = stride
         self.max_length = max_length
         self.device = device
-        
+        self.use_sppl = use_sppl
+
         #
         self.score = defaultdict(lambda : 0.0)
         self.len = 0
     
     @step_len
     def add(self,sentence):
-        self.score['ppl'] += self._compute_ppl(sentence)
+        if self.use_sppl:
+            self.score['ppl'] += self._compute_scaled_ppl(sentence)
+        else:
+            self.score['ppl'] += self._compute_ppl(sentence)
         
     def _compute_scaled_ppl(self,sentence,alpha=0.2):
         # https://www.desmos.com/calculator/scqyyq0ody

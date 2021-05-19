@@ -17,8 +17,9 @@ export LC_ALL=C.UTF-8&&export LANG=C.UTF-8&&nlg-eval --setup
 ```
 
 ## Usage
+### Scorer
 ```python
-from qgg_scorer import SimilarityScorer,CoverageScorer,PPLScorer
+from qgg_utils.scorer import SimilarityScorer,CoverageScorer,PPLScorer
 import pathlib
 import os
 
@@ -57,4 +58,42 @@ if __name__ == "__main__":
     for hyp in hyps:
         ppl_scorer.add(hyp)
     print(ppl_scorer.compute(),end='\n\n')
+```
+
+### Group Optim
+```python
+from qgg_utils.optim import GAOptimizer,GreedyOptimizer,RandomOptimizer,FirstNOptimizer
+import os,pathlib
+import random
+
+if __name__ == "__main__":
+    current_dir = pathlib.Path(__file__).parent.absolute()
+    context = open(os.path.join(current_dir,'example_question_group/context.txt')).read()
+    candidate_quesitons = open(os.path.join(current_dir,'example_question_group/hyps.txt')).read().split('\n')
+
+    # fill in some duplicate data
+    candidate_quesitons = candidate_quesitons*3
+    random.shuffle(candidate_quesitons)
+    candicate_pool_size = len(candidate_quesitons)
+    target_question_qroup_size = 5
+
+    # GAOptimizer
+    print("GAOptimizer")
+    ga_optim = GAOptimizer(candicate_pool_size,target_question_qroup_size)
+    print(ga_optim.optimize(candidate_quesitons,context),end="\n\n")
+    
+    # GreedyOptimizer
+    print('GreedyOptimizer')
+    greedy_optim = GreedyOptimizer(candicate_pool_size,target_question_qroup_size)
+    print(greedy_optim.optimize(candidate_quesitons,context),end="\n\n")
+    
+    # RandomOptimizer
+    print('RandomOptimizer')
+    rand_optim = RandomOptimizer(candicate_pool_size,target_question_qroup_size)
+    print(rand_optim.optimize(candidate_quesitons,context),end="\n\n")
+    
+    # FirstNOptimizer
+    print('FirstNOptimizer')
+    firstn_optim = FirstNOptimizer(candicate_pool_size,target_question_qroup_size)
+    print(firstn_optim.optimize(candidate_quesitons,context),end="\n\n")
 ```
