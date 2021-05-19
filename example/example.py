@@ -1,4 +1,3 @@
-import qgg_scorer
 from qgg_scorer import SimilarityScorer,CoverageScorer,PPLScorer
 import pathlib
 import os

@@ -18,7 +18,6 @@ export LC_ALL=C.UTF-8&&export LANG=C.UTF-8&&nlg-eval --setup
 
 ## Usage
 ```python
-import qgg_scorer
 from qgg_scorer import SimilarityScorer,CoverageScorer,PPLScorer
 import pathlib
 import os
