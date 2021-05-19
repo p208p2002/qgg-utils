@@ -55,7 +55,7 @@ class Scorer():
     def add(*args,**kwargs):
         assert False,'no implement error'
 
-    def compute(self,save_report_dir=None,save_file_name='score.txt',return_score=False):
+    def compute(self,save_report_dir=None,save_file_name='score.txt',return_score=True):
         # 
         out_score = {}
         
@@ -75,7 +75,6 @@ class Scorer():
 class SimilarityScorer(Scorer):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
-        self.ppl_scorer = PPLScorer()
 
     @step_len
     def add(self,hyp,refs):
@@ -84,10 +83,6 @@ class SimilarityScorer(Scorer):
             hyp = self._preprocess(hyp)
             refs = [self._preprocess(ref) for ref in refs]
         _score = self.nlgeval.compute_individual_metrics(hyp=hyp, ref=refs)
-        ppl_score = self.ppl_scorer._compute_ppl(hyp)
-        scaled_ppl = self.ppl_scorer._compute_scaled_ppl(hyp)
-        _score['ppl'] = ppl_score
-        _score['scaled_ppl'] = scaled_ppl
         for score_key in _score.keys():
             self.score[score_key] += _score[score_key]
 
@@ -168,12 +163,12 @@ class PPLScorer(Scorer):
     def _compute_scaled_ppl(self,sentence,alpha=0.2):
         # https://www.desmos.com/calculator/scqyyq0ody
         avg_ll = self._compute_avg_log_likelihood(sentence)
-        return torch.exp(-avg_ll*alpha)
+        return torch.exp(-avg_ll*alpha).item()
     
     def _compute_ppl(self,sentence):
         # https://huggingface.co/transformers/perplexity.html
         avg_ll = self._compute_avg_log_likelihood(sentence)
-        return torch.exp(avg_ll)
+        return torch.exp(avg_ll).item()
         
     
     @lru_cache(maxsize=200)
