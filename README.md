@@ -1,8 +1,8 @@
 # QGG Utils
 ## Install
-### Install qgg-scorer
+### Install qgg-utils
 ```sh
-pip install -U https://github.com/p208p2002/qgg-scorer.git
+pip install -U https://github.com/p208p2002/qgg-utils.git
 ```
 ### Setup Stanza
 ```sh
