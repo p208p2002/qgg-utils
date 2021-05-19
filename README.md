@@ -1,4 +1,4 @@
-# qgg-scorer
+# QGG Utils
 ## Install
 ### Install qgg-scorer
 ```sh
