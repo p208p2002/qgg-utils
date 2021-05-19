@@ -7,11 +7,9 @@ pip install -U https://github.com/p208p2002/qgg-scorer.git
 ### Setup Stanza
 ```sh
 pip install stanza
+python -c"import stanza;stanza.download('en')"
 ```
-```python 
-import stanza
-stanza.download('en')
-```
+
 ### Setup nlg-eval
 ```sh
 pip install git+git+https://github.com/voidful/nlg-eval.git@master
