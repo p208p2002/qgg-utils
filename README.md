@@ -2,7 +2,7 @@
 ## Install
 ### Install qgg-utils
 ```sh
-pip install -U https://github.com/p208p2002/qgg-utils.git
+pip install -U git+https://github.com/p208p2002/qgg-utils.git
 ```
 ### Setup Stanza
 ```sh
