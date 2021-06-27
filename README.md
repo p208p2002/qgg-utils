@@ -97,3 +97,14 @@ if __name__ == "__main__":
     firstn_optim = FirstNOptimizer(candicate_pool_size,target_question_qroup_size)
     print(firstn_optim.optimize(candidate_quesitons,context),end="\n\n")
 ```
+
+### Negative Label Loss
+```python
+import torch
+from qgg_utils import NegativeLabelLoss
+loss = NegativeLabelLoss()
+input = torch.randn(3, 5, requires_grad=True)
+target = torch.empty(3, dtype=torch.long).random_(5)
+output = loss(input, target)
+output.backward()
+```
