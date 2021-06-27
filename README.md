@@ -99,6 +99,7 @@ if __name__ == "__main__":
 ```
 
 ### Negative Label Loss
+https://www.desmos.com/calculator/9oaqcjayrw
 ```python
 import torch
 from qgg_utils import NegativeLabelLoss
