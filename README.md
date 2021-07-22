@@ -103,7 +103,7 @@ https://www.desmos.com/calculator/9oaqcjayrw
 ```python
 import torch
 from qgg_utils import NegativeLabelLoss
-loss = NegativeLabelLoss()
+loss = NegativeLabelLoss(alpha=1.0,beta=0.8)
 input = torch.randn(3, 5, requires_grad=True)
 target = torch.empty(3, dtype=torch.long).random_(5)
 output = loss(input, target)
