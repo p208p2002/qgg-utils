@@ -18,7 +18,12 @@ class GAOptimizer():
         self.context = None
         self.coverage_scorer = CoverageScorer()
         self.similarity_scorer = SimilarityScorer(metrics_to_omit=["CIDEr","METEOR",'Bleu_1', 'Bleu_2', 'Bleu_3', 'Bleu_4'])
-        self.ppl_scorer = PPLScorer(use_sppl=True)
+        
+        if '_ppl_scorer' not in globals():
+            global _ppl_scorer
+            _ppl_scorer = PPLScorer(use_sppl=True)
+        self.ppl_scorer = _ppl_scorer
+        
         self.candicate_pool_size = candicate_pool_size
         self.model=ga(
             function=self.fitness_function,
